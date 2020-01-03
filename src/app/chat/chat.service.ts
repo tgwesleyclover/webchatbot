@@ -15,6 +15,7 @@ export class ChatService {
   readonly token = environment.dialogflow.angularBot;
   readonly client = new ApiAiClient({ accessToken: this.token });
 
+  
   conversation = new BehaviorSubject<Message[]>([]);
 
   constructor() {}
