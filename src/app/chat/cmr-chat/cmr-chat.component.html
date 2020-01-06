@@ -1,0 +1,32 @@
+<h1>Celtic Manor Chat Bot</h1>
+
+<p>Currently working items are </p>
+
+  <ul>
+    <li>Hotel Address i.e What is the address?</li>
+    <li>Checkout time i.e what is the checkout time?</li>
+    <li>Things to do i.e What can I do here?</li>
+  </ul>
+
+
+<ng-container *ngFor="let message of messages | async">
+  <div
+    class="message"
+    [ngClass]="{
+      from: message.sentBy === 'bot',
+      to: message.sentBy === 'user'
+    }"
+  >
+    {{ message.content }}
+  </div>
+</ng-container>
+
+<label for="nameField">Your Message</label>
+
+<input
+  [(ngModel)]="formValue"
+  (keyup.enter)="sendMessage()"
+  type="text"
+/><br />
+
+<button (click)="sendMessage()">Send</button>

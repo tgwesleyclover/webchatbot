@@ -1,7 +1,18 @@
 <div class="row">
   <div class="column"></div>
   <div class="column column-50">
-    <chat-dialog></chat-dialog>
+    <mat-tab-group [backgroundColor]="'primary'">
+      <mat-tab label="Celtic Manor Bot">
+        <ng-template matTabContent>
+          <cmr-chat></cmr-chat>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Brookstreet Bot">
+        <ng-template matTabContent>
+         <bh-chat></bh-chat>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </div>
   <div class="column"></div>
 </div>
