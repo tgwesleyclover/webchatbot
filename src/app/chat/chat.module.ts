@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
-import { ChatService } from './chat.service';
-
 import { FormsModule } from '@angular/forms';
+import { CmrChatComponent } from './cmr-chat/cmr-chat.component';
+import { BhChatComponent } from './bh-chat/bh-chat.component';
 
 
 @NgModule({
@@ -13,9 +11,9 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   declarations: [
-    ChatDialogComponent
+    CmrChatComponent,
+    BhChatComponent
   ],
-  exports: [ ChatDialogComponent ],
-  providers: [ChatService]
+  exports: [ CmrChatComponent, BhChatComponent ]
 })
 export class ChatModule { }
