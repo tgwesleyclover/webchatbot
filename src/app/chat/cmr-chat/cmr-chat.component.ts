@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ChatService, Message } from '../chat.service';
+import { CMRChatService, Message } from '../chat.service';
 import { scan } from 'rxjs/operators';
 
 @Component({
   selector: 'cmr-chat',
   templateUrl: './cmr-chat.component.html',
-  styleUrls: ['./cmr-chat.component.scss']
+  styleUrls: ['./cmr-chat.component.scss'],
+  providers:[CMRChatService]
 })
 export class CmrChatComponent implements OnInit {
 
   messages: Observable<Message[]>;
   formValue: string;
 
-  constructor(public chat: ChatService) {}
+  constructor(public chat: CMRChatService) {}
 
   ngOnInit() {
     // appends to array after each new message is added to feedSource
