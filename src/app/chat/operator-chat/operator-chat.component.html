@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="column"></div>
+  <div class="column column-50">
+    <h2>Dialog Flow test</h2>
+    <small>Testing the bot functionality of dialog flow, and trying to emulate how the platform would be used in it the
+      wild</small>
+    <br/>
+    <br>
+    <h3>Demo aims</h3>
+    <ul>
+      <li>Create Bot-to-human-handoff functionality (guest side + hotelier side)</li>
+    </ul>
+
+    <h1>Operator</h1>
+
+    <ng-container *ngFor="let message of messages">
+      <div>
+        {{message}}
+      </div>
+    </ng-container>
+
+    <mat-form-field>
+      <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" matInput placeholder="Your Message">
+    </mat-form-field>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+  <div class="column"></div>
+</div>

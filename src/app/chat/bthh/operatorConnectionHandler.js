@@ -36,7 +36,7 @@ class OperatorConnectionHandler extends ChatConnectionHandler {
   }
 
   attachHandlers () {
-    this.socket.on(AppConstants.EVENT_OPERATOR_MESSAGE, (message) => {
+    this.socket.on('operator-message', (message) => {
       console.log('Received operator message:', message);
       this._gotOperatorInput(message);
     });

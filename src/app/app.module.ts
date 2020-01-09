@@ -25,7 +25,7 @@ const appRoutes: Routes = [
     ChatModule,
     BrowserAnimationsModule,
     MatTabsModule,
-    RouterModule.forRoot(appRoutes, {enableTracing: true})
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

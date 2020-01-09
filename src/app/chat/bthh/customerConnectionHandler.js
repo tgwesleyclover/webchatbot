@@ -16,7 +16,7 @@ const ChatConnectionHandler = require('./chatConnectionHandler.js');
 
 // Handles the connection to an individual customer
 class CustomerConnectionHandler extends ChatConnectionHandler {
-  
+
   constructor (socket, messageRouter, onDisconnect) {
     super(socket, messageRouter, onDisconnect);
     // In this sample, we use the socket's unique id as a customer id.
@@ -25,7 +25,6 @@ class CustomerConnectionHandler extends ChatConnectionHandler {
   }
 
   init (customerId) {
-    console.log('3');
 
     console.log('A customer joined: ', this.socket.id);
     this.router._sendConnectionStatusToOperator(customerId)

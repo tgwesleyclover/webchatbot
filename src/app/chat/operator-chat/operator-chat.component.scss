@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 13px Helvetica, Arial;
+}
+
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+form {
+  background: #9a2c7b;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: .5%;
+}
+
+form button {
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+}
+
+#chatTabs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#chatTabs li.chat-tab {
+  padding: 5px;
+  float: left;
+  border: 1px solid black;
+  border-radius: 10px 10px 0 0;
+  cursor: default;
+}
+
+#chatTabs li.chat-tab.selected {
+  font-weight: bold;
+  color: white;
+  background-color: black;
+}
+
+#chatWindows {
+  clear: left;
+  border-top: 1px solid black;
+}
+
+ul.chat-window {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.chat-window li {
+  padding: 5px 10px;
+}
+
+ul.chat-window li.operator-message {
+  color: blue;
+}
+
+ul.chat-window li.operator-error {
+  color: red;
+}
+
+ul.chat-window li.operator-message::before {
+  content: "> "
+}
+
+ul.chat-window li.customer-message {
+}
+
+ul.chat-window li.agent-response {
+  font-style: italic;
+}
+
+ul.chat-window li:nth-child(odd) {
+  background: #eee;
+}

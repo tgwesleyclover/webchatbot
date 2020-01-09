@@ -42,6 +42,7 @@ if(!projectId) {
 
 // Instantiate our app
 const customerStore = new CustomerStore();
+
 const messageRouter = new MessageRouter({
   customerStore: customerStore,
   dialogflowClient: dialogflowClient,
@@ -50,18 +51,18 @@ const messageRouter = new MessageRouter({
   operatorRoom: io.of('/operator')
 });
 
-// Serve static html files for the customer and operator clients
-// app.get('/customer', (req, res) => {
-//   res.sendFile(`${__dirname}/customer.html`);
-// });
+/*
+Serve static html files for the customer and operator clients
+app.get('/customer', (req, res) => {
+  res.sendFile(`${__dirname}/customer.html`);
+});
+*/
 
 app.get('/operator', (req, res) => {
   res.sendFile(`${__dirname}/operator.html`);
 });
 
 io.on('connection', (socket) => {
-  console.log('1');
-
   socket.on('new-message', (message) => {
     console.log(message);
   });

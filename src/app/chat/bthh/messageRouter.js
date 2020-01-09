@@ -164,13 +164,13 @@ class MessageRouter {
     if (Array.isArray(utterance)) {
       utterance.forEach(message => {
         this.operatorRoom.emit(
-          AppConstants.EVENT_CUSTOMER_MESSAGE,
+          'customer-message',
           this._operatorMessageObject(customer.id, message, isAgentResponse)
         );
       });
     } else {
       this.operatorRoom.emit(
-        AppConstants.EVENT_CUSTOMER_MESSAGE,
+        'customer-message',
         this._operatorMessageObject(customer.id, utterance, isAgentResponse)
       );
     }
@@ -181,7 +181,7 @@ class MessageRouter {
 
   // If one operator sends a message to a customer, share it with all connected operators
   _relayOperatorMessage(message) {
-    this.operatorRoom.emit(AppConstants.EVENT_OPERATOR_MESSAGE, message);
+    this.operatorRoom.emit('operator-message', message);
     // We're using Socket.io for our chat, which provides a synchronous API. However, in case
     // you want to swich it out for an async call, this method returns a promise.
     return Promise.resolve();
