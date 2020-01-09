@@ -21,17 +21,17 @@ const CustomerStore = require('./customerStore.js');
 const MessageRouter = require('./messageRouter.js');
 
 // Grab the service account credentials path from an environment variable
-const keyPath = './btth-ysrpam-1ebdf5863daa.json' //process.env.DF_SERVICE_ACCOUNT_PATH;
-if(!keyPath) {
+const keyPath = 'src/app/chat/bthh/btth-ysrpam-1ebdf5863daa.json'; //process.env.DF_SERVICE_ACCOUNT_PATH;
+if (!keyPath) {
   console.log('You need to specify a path to a service account keypair in environment variable DF_SERVICE_ACCOUNT_PATH. See README.md for details.');
   process.exit(1);
 }
 
 // Load and instantiate the Dialogflow client library
-const { SessionsClient } = require('dialogflow');
+const {SessionsClient} = require('dialogflow');
 const dialogflowClient = new SessionsClient({
   keyFilename: keyPath
-})
+});
 
 // Grab the Dialogflow project ID from an environment variable
 const projectId = 'btth-ysrpam'; //process.env.DF_PROJECT_ID;
