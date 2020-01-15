@@ -65,7 +65,7 @@ export class BHChatService {
 
 @Injectable()
 export class ChatService {
-  private url = 'http://localhost:3000';
+  private url = 'http://localhost:5000/test-uvmimj/us-central1/app';
   private readonly socket;
 
   constructor() {
