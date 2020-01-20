@@ -3,11 +3,15 @@ import {ApiAiClient} from 'api-ai-javascript/es6/ApiAiClient';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {environment} from '../../environments/environment';
 import * as io from 'socket.io-client';
+import {HttpClient} from '@angular/common/http';
+import {google} from 'dialogflow/protos/protos';
+import Intent = google.cloud.dialogflow.v2.Intent;
 
 export class Message {
   constructor(public content: string, public sentBy: string) {
   }
 }
+
 
 @Injectable()
 export class CMRChatService {
@@ -103,5 +107,28 @@ export class ChatService {
       });
     });
   }
+}
 
+@Injectable()
+export class DialogflowAdmin {
+  baseUrl = 'https://dialogflow.googleapis.com/v2';
+
+  constructor(private http: HttpClient) {
+  }
+
+  createNewAgentIntent(projectId: string, agent: Intent) {
+    const url = `${this.baseUrl}/projects/${projectId}/agent/intents`;
+    const config = {
+      headers: {
+        'Authorization': 'Bearer ' + environment.dialogflow.apiKey,
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    };
+    this.http.post(url, agent, config).subscribe((test) => {
+      console.log(test);
+    }, error => {
+      console.log(error);
+    });
+
+  }
 }
