@@ -7,6 +7,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {RouterModule, Routes} from '@angular/router';
 import {OperatorChatComponent} from './chat/operator-chat/operator-chat.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {AdminComponent} from './admin/admin.component';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -16,7 +17,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

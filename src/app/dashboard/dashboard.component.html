@@ -1,6 +1,6 @@
 <div class="row">
   <div class="column"></div>
-  <div class="column column-50">
+  <div class="column container">
     <h2>Dialog Flow test</h2>
     <small>Testing the bot functionality of dialog flow, and trying to emulate how the platform would be used in it the
       wild</small>
@@ -12,14 +12,18 @@
       <li>Create an interface to add more agents easily (representative of adding new customer)</li>
       <li>Create an interface to add new intent to agent easily (customer being able to customise their bot)</li>
       <li>Create Bot-to-human-handoff functionality (guest side + hotelier side)</li>
-      <li>Integrate twilio to allow functionality to used via Channels</li>
+      <li>Integrate Twilio to allow functionality to used via Channels</li>
     </ul>
+
     <mat-tab-group [backgroundColor]="'primary'">
       <mat-tab label="Celtic Manor Bot">
         <cmr-chat></cmr-chat>
       </mat-tab>
       <mat-tab label="Brookstreet Bot">
         <bh-chat></bh-chat>
+      </mat-tab>
+      <mat-tab label="Admin Settings">
+        <app-admin></app-admin>
       </mat-tab>
     </mat-tab-group>
   </div>

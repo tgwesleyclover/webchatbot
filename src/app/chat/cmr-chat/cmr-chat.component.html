@@ -11,22 +11,33 @@
 </ul>
 
 <br>
+<hr>
 
-<ng-container *ngFor="let message of messages">
-  <div [ngClass]="{
+<div class="chat-container">
+  <div class="row"></div>
+  <ng-container *ngFor="let message of messages">
+    <div [ngClass]="{
       from: message.sentBy === 'operator',
       to: message.sentBy === 'customer'
     }"
-       class="message">
-    {{message.content}}
+         class="message">
+      {{message.content}}
+    </div>
+  </ng-container>
+
+  <div class="form-inline">
+    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" aria-describedby="emailHelp" class="form-control"
+           id="message"
+           placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
+
+    <button class="btn btn-primary ">
+      Send Message
+    </button>
+
   </div>
-</ng-container>
-
-<div>
-  <mat-form-field appearance="legacy" style="width: 100%">
-    <mat-label>Your Message</mat-label>
-    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" matInput placeholder="Your Message">
-    <mat-icon matSuffix>send</mat-icon>
-  </mat-form-field>
-
 </div>
+
+
+
+
+
