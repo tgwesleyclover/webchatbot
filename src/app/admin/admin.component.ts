@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogflowAdmin} from '../chat/chat.service';
 import {google} from 'dialogflow/protos/protos';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import Intent = google.cloud.dialogflow.v2.Intent;
 import ITrainingPhrase = google.cloud.dialogflow.v2.Intent.ITrainingPhrase;
 import IMessage = google.cloud.dialogflow.v2.Intent.IMessage;
@@ -14,14 +15,37 @@ import IIntent = google.cloud.dialogflow.v2.IIntent;
 })
 export class AdminComponent implements OnInit {
   bots: string[] = ['BH', 'CMR'];
+  orderForm: FormGroup;
+  items: FormArray;
 
-  constructor(private admin: DialogflowAdmin) {
+  constructor(
+    private admin: DialogflowAdmin,
+    private formBuilder: FormBuilder
+  ) {
   }
 
   ngOnInit() {
+    this.orderForm = this.formBuilder.group({
+      customerName: '',
+      email: '',
+      items: this.formBuilder.array([this.createTrainingPhase()])
+    });
   }
 
-  createnewIntent() {
+  createTrainingPhase(): FormGroup {
+    return this.formBuilder.group({
+      name: '',
+      description: '',
+      price: ''
+    });
+  }
+
+  addItem(): void {
+    this.items = this.orderForm.get('items') as FormArray;
+    this.items.push(this.createTrainingPhase());
+  }
+
+  createNewIntent() {
     const projectId = 'btth-ysrpam';
     const trainingPhrases: ITrainingPhrase[] = [
       {
