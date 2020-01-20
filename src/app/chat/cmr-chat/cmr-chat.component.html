@@ -1,5 +1,7 @@
 <h1>Celtic Manor Chat Bot</h1>
 
+<br>
+
 <p>Currently working items are </p>
 
 <ul>
@@ -8,15 +10,23 @@
   <li>Things to do i.e What can I do here?</li>
 </ul>
 
+<br>
 
-<ng-container *ngFor="let message of messagess">
-  <div>
-    {{message}}
+<ng-container *ngFor="let message of messages">
+  <div [ngClass]="{
+      from: message.sentBy === 'operator',
+      to: message.sentBy === 'customer'
+    }"
+       class="message">
+    {{message.content}}
   </div>
 </ng-container>
 
-<mat-form-field>
-  <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" matInput placeholder="Your Message">
-</mat-form-field>
+<div>
+  <mat-form-field appearance="legacy" style="width: 100%">
+    <mat-label>Your Message</mat-label>
+    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" matInput placeholder="Your Message">
+    <mat-icon matSuffix>send</mat-icon>
+  </mat-form-field>
 
-<button (click)="sendMessage()">Send</button>
+</div>

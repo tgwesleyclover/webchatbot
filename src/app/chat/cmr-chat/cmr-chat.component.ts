@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
 import {ChatService, CMRChatService, Message} from '../chat.service';
-import {scan} from 'rxjs/operators';
 
 @Component({
   selector: 'cmr-chat',
@@ -10,34 +8,35 @@ import {scan} from 'rxjs/operators';
   providers: [CMRChatService, ChatService]
 })
 export class CmrChatComponent implements OnInit {
-  messages: Observable<Message[]>;
+  // messages: Observable<Message[]>;
   formValue: string;
-  messagess: string[] = [];
+  messages: Message[] = [];
 
 
   constructor(public chat: CMRChatService, private chatService: ChatService) {
   }
 
   ngOnInit() {
-    // appends to array after each new message is added to feedSource
-    this.messages = this.chat.conversation.pipe(
-      scan((acc, val) => {
-        console.log(acc, val);
-        return acc.concat(val);
-      })
-    );
+    /*    // appends to array after each new message is added to feedSource
+        this.messages = this.chatService.getCustomerMessages()
+          .pipe(scan((acc, val) => {
+            console.log(acc, val);
+            return acc.concat(val);
+          })
+        );*/
 
     this.chatService
       .getCustomerMessages()
-      .subscribe((message: string) => {
-        this.messagess.push(message);
+      .subscribe((message: Message) => {
+        this.messages.push(message);
       });
   }
 
   sendMessage() {
     // this.chat.converse(this.formValue);
     this.chatService.sendMessage(this.formValue, 'customer-message');
-    this.messagess.push(this.formValue);
+    const message: Message = {content: this.formValue, sentBy: 'customer'};
+    this.messages.push(message);
     this.formValue = '';
   }
 

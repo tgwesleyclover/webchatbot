@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiAiClient} from 'api-ai-javascript/es6/ApiAiClient';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {environment} from '../../environments/environment';
 import * as io from 'socket.io-client';
 
@@ -65,7 +65,9 @@ export class BHChatService {
 
 @Injectable()
 export class ChatService {
-  private url = 'http://localhost:5000/test-uvmimj/us-central1/app';
+  // private url = 'http://localhost:5000/test-uvmimj/us-central1/app';
+  private url = 'http://localhost:3000';
+
   private readonly socket;
 
   constructor() {
@@ -84,18 +86,20 @@ export class ChatService {
     return this.socket;
   }
 
-  public getCustomerMessages() {
+  public getCustomerMessages(): any {
     return Observable.create(observer => {
       this.socket.on('customer-message', message => {
-        observer.next(message);
+        const messageObject: Message = {content: message, sentBy: 'operator'};
+        observer.next(messageObject);
       });
     });
   }
 
   public getOperatorMessages() {
-    return Observable.create(observer => {
+    return of(observer => {
       this.socket.on('operator-message', message => {
-        observer.next(message);
+        const messageObject: Message = {content: message, sentBy: 'customer'};
+        observer.next(messageObject);
       });
     });
   }

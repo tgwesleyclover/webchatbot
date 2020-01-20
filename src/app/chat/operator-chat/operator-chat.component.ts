@@ -23,7 +23,7 @@ export class OperatorChatComponent implements OnInit {
   ngOnInit() {
     this.chatService
       .getOperatorMessages()
-      .subscribe((message: string) => {
+      .subscribe((message: any) => {
         this.messages.push(message);
       });
 
