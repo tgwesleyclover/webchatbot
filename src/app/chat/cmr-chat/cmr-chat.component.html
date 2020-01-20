@@ -1,32 +1,43 @@
 <h1>Celtic Manor Chat Bot</h1>
 
+<br>
+
 <p>Currently working items are </p>
 
-  <ul>
-    <li>Hotel Address i.e What is the address?</li>
-    <li>Checkout time i.e what is the checkout time?</li>
-    <li>Things to do i.e What can I do here?</li>
-  </ul>
+<ul>
+  <li>Hotel Address i.e What is the address?</li>
+  <li>Checkout time i.e what is the checkout time?</li>
+  <li>Things to do i.e What can I do here?</li>
+</ul>
 
+<br>
+<hr>
 
-<ng-container *ngFor="let message of messages | async">
-  <div
-    class="message"
-    [ngClass]="{
-      from: message.sentBy === 'bot',
-      to: message.sentBy === 'user'
+<div class="chat-container">
+  <div class="row"></div>
+  <ng-container *ngFor="let message of messages">
+    <div [ngClass]="{
+      from: message.sentBy === 'operator',
+      to: message.sentBy === 'customer'
     }"
-  >
-    {{ message.content }}
+         class="message">
+      {{message.content}}
+    </div>
+  </ng-container>
+
+  <div class="form-inline">
+    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" aria-describedby="emailHelp" class="form-control"
+           id="message"
+           placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
+
+    <button class="btn btn-primary ">
+      Send Message
+    </button>
+
   </div>
-</ng-container>
+</div>
 
-<label for="nameField">Your Message</label>
 
-<input
-  [(ngModel)]="formValue"
-  (keyup.enter)="sendMessage()"
-  type="text"
-/><br />
 
-<button (click)="sendMessage()">Send</button>
+
+
