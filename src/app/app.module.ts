@@ -8,6 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {OperatorChatComponent} from './chat/operator-chat/operator-chat.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {AdminComponent} from './admin/admin.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -25,7 +26,9 @@ const appRoutes: Routes = [
     ChatModule,
     BrowserAnimationsModule,
     MatTabsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

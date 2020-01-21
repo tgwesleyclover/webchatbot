@@ -22,14 +22,15 @@ export class AdminComponent implements OnInit {
     private admin: DialogflowAdmin,
     private formBuilder: FormBuilder
   ) {
-  }
-
-  ngOnInit() {
     this.orderForm = this.formBuilder.group({
       customerName: '',
       email: '',
       items: this.formBuilder.array([this.createTrainingPhase()])
     });
+  }
+
+  ngOnInit() {
+
   }
 
   createTrainingPhase(): FormGroup {

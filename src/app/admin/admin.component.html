@@ -66,3 +66,18 @@
   </div>
   <button (click)="createNewIntent()" class="btn btn-primary" type="button">Sign in</button>
 </form>
+
+<div [formGroup]="orderForm">
+
+  <div *ngFor="let item of orderForm?.get('items')?.controls; let i = index;" formArrayName="items">
+    <div [formGroupName]="i">
+      <input formControlName="name" placeholder="Item name">
+      <input formControlName="description" placeholder="Item description">
+      <input formControlName="price" placeholder="Item price">
+    </div>
+
+    Chosen name: {{ orderForm.controls['items'].controls[i].controls.name.value }}
+  </div>
+</div>
+
+<button (click)="addItem()">Add forms</button>
