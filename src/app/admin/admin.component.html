@@ -1,6 +1,4 @@
-<h2>
-  Admin Settings
-</h2>
+<h2>Admin Settings</h2>
 
 <br>
 
@@ -26,58 +24,38 @@
       <input class="form-control" id="intentName" placeholder="Intent Display Name" type="text">
     </div>
 
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input class="form-control" id="inputPassword4" placeholder="Password" type="password">
+  </div>
+
+  <hr>
+
+  <div [formGroup]="intentForm">
+    <label>Add training phrases</label>
+    <div *ngFor="let item of intentForm?.get('trainingPhrases')?.controls; let i = index;"
+         formArrayName="trainingPhrases">
+      <div [formGroupName]="i" class="form-inline">
+        <input class="form-control" formControlName="trainingPhrase" placeholder="Training Phrase">
+        <button (click)="addTrainingPhrase()" type="button">Add training phrase</button>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label for="inputAddress">Address</label>
-    <input class="form-control" id="inputAddress" placeholder="1234 Main St" type="text">
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
-    <input class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" type="text">
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input class="form-control" id="inputCity" type="text">
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select class="form-control" id="inputState">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input class="form-control" id="inputZip" type="text">
+
+  <hr>
+
+  <div [formGroup]="intentForm">
+    <label>Add message responses</label>
+    <div *ngFor="let item of intentForm?.get('messageResponses')?.controls; let i = index;"
+         formArrayName="messageResponses">
+      <div [formGroupName]="i" class="form-inline">
+        <input class="form-control" formControlName="messageResponse" placeholder="Message Response">
+        <button (click)="addMessageResponse()" type="button">Add message response</button>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" id="gridCheck" type="checkbox">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <button (click)="createNewIntent()" class="btn btn-primary" type="button">Sign in</button>
+
+  <hr>
+
+  <button (click)="createNewIntent()" class="btn btn-primary" type="submit">Create intent</button>
+
 </form>
 
-<div [formGroup]="orderForm">
 
-  <div *ngFor="let item of orderForm?.get('items')?.controls; let i = index;" formArrayName="items">
-    <div [formGroupName]="i">
-      <input formControlName="name" placeholder="Item name">
-      <input formControlName="description" placeholder="Item description">
-      <input formControlName="price" placeholder="Item price">
-    </div>
-
-    Chosen name: {{ orderForm.controls['items'].controls[i].controls.name.value }}
-  </div>
-</div>
-
-<button (click)="addItem()">Add forms</button>

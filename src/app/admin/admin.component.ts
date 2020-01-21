@@ -2,10 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {DialogflowAdmin} from '../chat/chat.service';
 import {google} from 'dialogflow/protos/protos';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import Intent = google.cloud.dialogflow.v2.Intent;
-import ITrainingPhrase = google.cloud.dialogflow.v2.Intent.ITrainingPhrase;
-import IMessage = google.cloud.dialogflow.v2.Intent.IMessage;
-import IIntent = google.cloud.dialogflow.v2.IIntent;
 
 @Component({
   selector: 'app-admin',
@@ -15,17 +11,19 @@ import IIntent = google.cloud.dialogflow.v2.IIntent;
 })
 export class AdminComponent implements OnInit {
   bots: string[] = ['BH', 'CMR'];
-  orderForm: FormGroup;
-  items: FormArray;
+  intentForm: FormGroup;
+  trainingPhrases: FormArray;
+  messageResponses: FormArray;
 
   constructor(
     private admin: DialogflowAdmin,
     private formBuilder: FormBuilder
   ) {
-    this.orderForm = this.formBuilder.group({
-      customerName: '',
-      email: '',
-      items: this.formBuilder.array([this.createTrainingPhase()])
+
+    this.intentForm = this.formBuilder.group({
+      intentName: '',
+      trainingPhrases: this.formBuilder.array([this.createTrainingPhase()]),
+      messageResponses: this.formBuilder.array([this.createMessageResponse()])
     });
   }
 
@@ -35,55 +33,68 @@ export class AdminComponent implements OnInit {
 
   createTrainingPhase(): FormGroup {
     return this.formBuilder.group({
-      name: '',
-      description: '',
-      price: ''
+      trainingPhrase: ''
     });
   }
 
-  addItem(): void {
-    this.items = this.orderForm.get('items') as FormArray;
-    this.items.push(this.createTrainingPhase());
+  createMessageResponse(): FormGroup {
+    return this.formBuilder.group({
+      messageResponse: ''
+    });
+  }
+
+  addTrainingPhrase(): void {
+    this.trainingPhrases = this.intentForm.get('trainingPhrases') as FormArray;
+    this.trainingPhrases.push(this.createTrainingPhase());
+  }
+
+  addMessageResponse(): void {
+    this.messageResponses = this.intentForm.get('messageResponses') as FormArray;
+    this.messageResponses.push(this.createMessageResponse());
   }
 
   createNewIntent() {
     const projectId = 'btth-ysrpam';
-    const trainingPhrases: ITrainingPhrase[] = [
-      {
-        parts: [
-          {
-            text: 'i am testing'
-          }
-        ]
-      }, {
-        parts: [
-          {
-            text: 'This is a test'
-          }
-        ]
-      }
-    ];
-    const messages: IMessage[] = [
-      {
-        text: {
-          text: [
-            'Created Test training Phase',
-            'We have created test training phase',
-            'training phase test created'
-          ]
-        }
-      }
-    ];
-    const intentInformation: IIntent = {
-      displayName: 'testing',
-      trainingPhrases: trainingPhrases,
-      messages: messages
 
-    };
-    const agent: Intent = Intent.create(intentInformation);
+    // this.trainingPhrases.getRawValue()
+    console.log(this.trainingPhrases.getRawValue());
+    // const trainingPhrases: ITrainingPhrase[] = [
+    //   {
+    //     parts: [
+    //       {
+    //         text: 'i am testing'
+    //       }
+    //     ]
+    //   }, {
+    //     parts: [
+    //       {
+    //         text: 'This is a test'
+    //       }
+    //     ]
+    //   }
+    // ];
+    // const messages: IMessage[] = [
+    //   {
+    //     text: {
+    //       text: [
+    //         'Created Test training Phase',
+    //         'We have created test training phase',
+    //         'training phase test created'
+    //       ]
+    //     }
+    //   }
+    // ];
+    // const intentInformation: IIntent = {
+    //   displayName: 'testing',
+    //   trainingPhrases: trainingPhrases,
+    //   messages: messages
+    //
+    // };
+    // const agent: Intent = Intent.create(intentInformation);
 
-    console.log(agent);
-    this.admin.createNewAgentIntent(projectId, agent);
+    // console.log(agent);
+
+    // this.admin.createNewAgentIntent(projectId, agent);
   }
 
 }
