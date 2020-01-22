@@ -116,15 +116,17 @@ export class DialogflowAdmin {
   constructor(private http: HttpClient) {
   }
 
-  createNewAgentIntent(projectId: string, agent: Intent) {
+  createNewAgentIntent(projectId: string, intent: Intent) {
     const url = `${this.baseUrl}/projects/${projectId}/agent/intents`;
+
     const config = {
       headers: {
         'Authorization': 'Bearer ' + environment.dialogflow.apiKey,
         'Content-Type': 'application/json; charset=utf-8'
       }
     };
-    this.http.post(url, agent, config).subscribe((test) => {
+
+    this.http.post(url, intent, config).subscribe((test) => {
       console.log(test);
     }, error => {
       console.log(error);

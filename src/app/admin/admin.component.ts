@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogflowAdmin} from '../chat/chat.service';
-import {google} from 'dialogflow/protos/protos';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {google} from 'dialogflow/protos/protos';
+import ITrainingPhrase = google.cloud.dialogflow.v2beta1.Intent.ITrainingPhrase;
+import IMessage = google.cloud.dialogflow.v2.Intent.IMessage;
+import IIntent = google.cloud.dialogflow.v2.IIntent;
+import Intent = google.cloud.dialogflow.v2.Intent;
 
 @Component({
   selector: 'app-admin',
@@ -25,10 +29,10 @@ export class AdminComponent implements OnInit {
       trainingPhrases: this.formBuilder.array([this.createTrainingPhase()]),
       messageResponses: this.formBuilder.array([this.createMessageResponse()])
     });
+
   }
 
   ngOnInit() {
-
   }
 
   createTrainingPhase(): FormGroup {
@@ -55,46 +59,32 @@ export class AdminComponent implements OnInit {
 
   createNewIntent() {
     const projectId = 'btth-ysrpam';
+    const intentDisplayName: string = this.intentForm.controls['intentName'].value;
 
-    // this.trainingPhrases.getRawValue()
-    console.log(this.trainingPhrases.getRawValue());
-    // const trainingPhrases: ITrainingPhrase[] = [
-    //   {
-    //     parts: [
-    //       {
-    //         text: 'i am testing'
-    //       }
-    //     ]
-    //   }, {
-    //     parts: [
-    //       {
-    //         text: 'This is a test'
-    //       }
-    //     ]
-    //   }
-    // ];
-    // const messages: IMessage[] = [
-    //   {
-    //     text: {
-    //       text: [
-    //         'Created Test training Phase',
-    //         'We have created test training phase',
-    //         'training phase test created'
-    //       ]
-    //     }
-    //   }
-    // ];
-    // const intentInformation: IIntent = {
-    //   displayName: 'testing',
-    //   trainingPhrases: trainingPhrases,
-    //   messages: messages
-    //
-    // };
-    // const agent: Intent = Intent.create(intentInformation);
+    const trainingPhrases: ITrainingPhrase[] =
+      this.trainingPhrases.getRawValue().map((value) => {
+        return {parts: [{text: value.trainingPhrase}]};
+      });
 
-    // console.log(agent);
+    const messageResponses: IMessage[] = [
+      {
+        text: {
+          text: this.messageResponses.getRawValue().map((value) => {
+            return value.messageResponse;
+          })
+        }
+      }
+    ];
 
-    // this.admin.createNewAgentIntent(projectId, agent);
+    const intentInformation: IIntent = {
+      displayName: intentDisplayName,
+      trainingPhrases: trainingPhrases,
+      messages: messageResponses
+    };
+
+    const intent: Intent = Intent.create(intentInformation);
+
+    this.admin.createNewAgentIntent(projectId, intent);
   }
 
 }

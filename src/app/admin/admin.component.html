@@ -2,7 +2,7 @@
 
 <br>
 
-<p>Used for editing information about bots </p>
+<p>Used for editing information about bots</p>
 
 <hr>
 
@@ -16,14 +16,13 @@
 
 <hr>
 
-<form (submit)="createNewIntent()">
+<form (ngSubmit)="createNewIntent()">
   <div class="form-row">
-
-    <div class="form-group col-md-6">
+    <div [formGroup]="intentForm" class="form-group col-md-6">
       <label for="intentName">Intent Name</label>
-      <input class="form-control" id="intentName" placeholder="Intent Display Name" type="text">
+      <input class="form-control" formControlName="intentName" id="intentName" placeholder="Intent Display Name"
+             type="text">
     </div>
-
   </div>
 
   <hr>
@@ -34,9 +33,9 @@
          formArrayName="trainingPhrases">
       <div [formGroupName]="i" class="form-inline">
         <input class="form-control" formControlName="trainingPhrase" placeholder="Training Phrase">
-        <button (click)="addTrainingPhrase()" type="button">Add training phrase</button>
       </div>
     </div>
+    <button (click)="addTrainingPhrase()" type="button">+ training phrase</button>
   </div>
 
   <hr>
@@ -47,14 +46,14 @@
          formArrayName="messageResponses">
       <div [formGroupName]="i" class="form-inline">
         <input class="form-control" formControlName="messageResponse" placeholder="Message Response">
-        <button (click)="addMessageResponse()" type="button">Add message response</button>
       </div>
     </div>
+    <button (click)="addMessageResponse()" type="button">+ message response</button>
   </div>
 
   <hr>
 
-  <button (click)="createNewIntent()" class="btn btn-primary" type="submit">Create intent</button>
+  <button class="btn btn-primary" type="submit">Create intent</button>
 
 </form>
 
