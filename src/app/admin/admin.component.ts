@@ -16,6 +16,8 @@ import Intent = google.cloud.dialogflow.v2.Intent;
 export class AdminComponent implements OnInit {
   bots: string[] = ['BH', 'CMR'];
   intentForm: FormGroup;
+  projectId = 'btth-ysrpam';
+
   trainingPhrases: FormArray;
   messageResponses: FormArray;
 
@@ -33,6 +35,9 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.admin.getAgentIntent(this.projectId).subscribe((value: Intent) => {
+      console.log(value);
+    }, error => console.log(error));
   }
 
   createTrainingPhase(): FormGroup {
@@ -58,7 +63,6 @@ export class AdminComponent implements OnInit {
   }
 
   createNewIntent() {
-    const projectId = 'btth-ysrpam';
     const intentDisplayName: string = this.intentForm.controls['intentName'].value;
 
     const trainingPhrases: ITrainingPhrase[] =
@@ -84,7 +88,7 @@ export class AdminComponent implements OnInit {
 
     const intent: Intent = Intent.create(intentInformation);
 
-    this.admin.createNewAgentIntent(projectId, intent);
+    this.admin.createNewAgentIntent(this.projectId, intent);
   }
 
 }

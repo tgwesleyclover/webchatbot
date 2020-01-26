@@ -11,7 +11,8 @@ import {AdminComponent} from './admin/admin.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 const appRoutes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: '', pathMatch: 'full', redirectTo: '/customer'},
+  {path: 'customer', component: DashboardComponent},
   {path: 'operator', component: OperatorChatComponent},
 ];
 

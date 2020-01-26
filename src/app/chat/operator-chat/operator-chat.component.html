@@ -12,17 +12,31 @@
     </ul>
 
     <h1>Operator</h1>
+    <div class="chat-container">
 
-    <ng-container *ngFor="let message of messages">
-      <div>
-        {{message}}
+      <div class="row"></div>
+
+      <!--  Loop through the messages (both bot/operator and guest/customer) and choose css class accordingly -->
+
+      <ng-container *ngFor="let message of messages">
+
+        <div [ngClass]="{ from: message.sentBy === 'operator',   to: message.sentBy === 'customer' }" class="message">
+          <!-- Message text -->
+          {{message.content}}
+        </div>
+
+      </ng-container>
+
+      <div class="form-inline">
+
+        <!--    when the user presses enter, run sendMessage method -->
+        <input (keyup.enter)="sendMessage()" [(ngModel)]="messageToSend" aria-describedby="emailHelp"
+               class="form-control"
+               id="message" placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
+
+        <button class="btn btn-primary">Send Message</button>
+
       </div>
-    </ng-container>
+    </div>
 
-    <mat-form-field>
-      <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" matInput placeholder="Your Message">
-    </mat-form-field>
-    <button (click)="sendMessage()">Send</button>
   </div>
-  <div class="column"></div>
-</div>

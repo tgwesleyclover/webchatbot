@@ -14,25 +14,27 @@
 <hr>
 
 <div class="chat-container">
+
   <div class="row"></div>
+
+  <!--  Loop through the messages (both bot/operator and guest/customer) and choose css class accordingly -->
+
   <ng-container *ngFor="let message of messages">
-    <div [ngClass]="{
-      from: message.sentBy === 'operator',
-      to: message.sentBy === 'customer'
-    }"
-         class="message">
+
+    <div [ngClass]="{ from: message.sentBy === 'operator',   to: message.sentBy === 'customer' }" class="message">
+      <!-- Message text -->
       {{message.content}}
     </div>
+
   </ng-container>
 
   <div class="form-inline">
-    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" aria-describedby="emailHelp" class="form-control"
-           id="message"
-           placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
 
-    <button class="btn btn-primary ">
-      Send Message
-    </button>
+    <!--    when the user presses enter, run sendMessage method -->
+    <input (keyup.enter)="sendMessage()" [(ngModel)]="messageToSend" aria-describedby="emailHelp" class="form-control"
+           id="message" placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
+
+    <button class="btn btn-primary">Send Message</button>
 
   </div>
 </div>

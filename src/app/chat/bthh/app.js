@@ -35,7 +35,7 @@ const dialogflowClient = new SessionsClient({
 
 // Grab the Dialogflow project ID from an environment variable
 const projectId = 'btth-ysrpam'; //process.env.DF_PROJECT_ID;
-if(!projectId) {
+if (!projectId) {
   console.log('You need to specify a project ID in the environment variable DF_PROJECT_ID. See README.md for details.');
   process.exit(1);
 }

@@ -69,10 +69,9 @@ export class BHChatService {
 
 @Injectable()
 export class ChatService {
+  public readonly socket;
   // private url = 'http://localhost:5000/test-uvmimj/us-central1/app';
   private url = 'http://localhost:3000';
-
-  private readonly socket;
 
   constructor() {
     this.socket = io(this.url);
@@ -84,10 +83,6 @@ export class ChatService {
 
   public sendMessage(message, sender) {
     this.socket.emit(sender, message);
-  }
-
-  public getSocket() {
-    return this.socket;
   }
 
   public getCustomerMessages(): any {
@@ -133,4 +128,18 @@ export class DialogflowAdmin {
     });
 
   }
+
+  getAgentIntent(projectId: string): Observable<Intent> {
+    const url = `${this.baseUrl}/projects/${projectId}/agent/intents`;
+
+    const config = {
+      headers: {
+        'Authorization': 'Bearer ' + environment.dialogflow.apiKey,
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    };
+
+    return this.http.get<Intent>(url, config);
+  }
 }
+

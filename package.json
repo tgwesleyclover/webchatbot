@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "node src/app/chat/bthh/app.js & ng serve",
+    "start": "node src/app/chat/bthh/app.js & ng serve -o",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

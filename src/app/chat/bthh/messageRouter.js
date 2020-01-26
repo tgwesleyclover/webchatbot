@@ -41,15 +41,9 @@ class MessageRouter {
 
   // Attach event handlers and begin handling connections
   handleConnections() {
-    console.log('2');
-    this.customerRoom.on(
-      "connection",
-      this._handleCustomerConnection.bind(this)
-    );
-    this.operatorRoom.on(
-      "connection",
-      this._handleOperatorConnection.bind(this)
-    );
+    this.customerRoom.on("connection", this._handleCustomerConnection.bind(this));
+
+    this.operatorRoom.on("connection", this._handleOperatorConnection.bind(this));
   }
 
   // Creates an object that stores a customer connection and has
@@ -58,11 +52,8 @@ class MessageRouter {
     const onDisconnect = () => {
       delete this.customerConnections[socket.id];
     };
-    this.customerConnections[socket.id] = new CustomerConnectionHandler(
-      socket,
-      this,
-      onDisconnect
-    );
+
+    this.customerConnections[socket.id] = new CustomerConnectionHandler(socket, this, onDisconnect);
   }
 
   // Same as above, but for operator connections
@@ -70,16 +61,11 @@ class MessageRouter {
     const onDisconnect = () => {
       delete this.customerConnections[socket.id];
     };
-    this.operatorConnections[socket.id] = new OperatorConnectionHandler(
-      socket,
-      this,
-      onDisconnect
-    );
+    this.operatorConnections[socket.id] = new OperatorConnectionHandler(socket, this, onDisconnect);
   }
 
   // Notifies all operators of a customer's connection changing
   _sendConnectionStatusToOperator(customerId, disconnected) {
-    console.log('4');
     console.log("Sending customer id to any operators");
     const status = disconnected
       ? AppConstants.EVENT_CUSTOMER_DISCONNECTED

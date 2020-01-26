@@ -1,43 +1,34 @@
 import {Component, OnInit} from '@angular/core';
-import {ChatService, CMRChatService, Message} from '../chat.service';
+import {ChatService, Message} from '../chat.service';
 
 @Component({
   selector: 'cmr-chat',
   templateUrl: './cmr-chat.component.html',
   styleUrls: ['./cmr-chat.component.scss'],
-  providers: [CMRChatService, ChatService]
+  providers: [ChatService]
 })
 export class CmrChatComponent implements OnInit {
-  // messages: Observable<Message[]>;
-  formValue: string;
-  messages: Message[] = [];
+  messageToSend: string; // message from customer/guest to bot or operator
+  messages: Message[] = []; // messages shown in the UI
 
-
-  constructor(public chat: CMRChatService, private chatService: ChatService) {
+  constructor(private chatService: ChatService) {
   }
 
   ngOnInit() {
-    /*    // appends to array after each new message is added to feedSource
-        this.messages = this.chatService.getCustomerMessages()
-          .pipe(scan((acc, val) => {
-            console.log(acc, val);
-            return acc.concat(val);
-          })
-        );*/
-
-    this.chatService
-      .getCustomerMessages()
-      .subscribe((message: Message) => {
-        this.messages.push(message);
-      });
+    /** Observable for getting the messages directed to the customer from either bot or operator */
+    this.chatService.getCustomerMessages().subscribe((message: Message) => {
+      this.messages.push(message); // add the message to the UI array
+    });
   }
 
+  /** Method to handle sending messages*/
   sendMessage() {
-    // this.chat.converse(this.formValue);
-    this.chatService.sendMessage(this.formValue, 'customer-message');
-    const message: Message = {content: this.formValue, sentBy: 'customer'};
-    this.messages.push(message);
-    this.formValue = '';
-  }
+    // call the sendMessage method to send messages to the bot/operator
+    this.chatService.sendMessage(this.messageToSend, 'customer-message');
 
+    // add the sent message to the messages array to show in the UI
+    this.messages.push({content: this.messageToSend, sentBy: 'customer'});
+
+    this.messageToSend = ''; // clear the UI field
+  }
 }

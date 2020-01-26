@@ -9,24 +9,28 @@
   </ul>
 
 
-<ng-container *ngFor="let message of messages | async">
-  <div
-    class="message"
-    [ngClass]="{
-      from: message.sentBy === 'bot',
-      to: message.sentBy === 'user'
-    }"
-  >
-    {{ message.content }}
+<div class="chat-container">
+
+  <div class="row"></div>
+
+  <!--  Loop through the messages (both bot/operator and guest/customer) and choose css class accordingly -->
+
+  <ng-container *ngFor="let message of messages">
+
+    <div [ngClass]="{ from: message.sentBy === 'operator',   to: message.sentBy === 'customer' }" class="message">
+      <!-- Message text -->
+      {{message.content}}
+    </div>
+
+  </ng-container>
+
+  <div class="form-inline">
+
+    <!--    when the user presses enter, run sendMessage method -->
+    <input (keyup.enter)="sendMessage()" [(ngModel)]="formValue" aria-describedby="emailHelp" class="form-control"
+           id="message" placeholder="Your Message" style="width: 65%; margin-right: 0.5rem;" type="text">
+
+    <button class="btn btn-primary">Send Message</button>
+
   </div>
-</ng-container>
-
-<label for="nameField">Your Message</label>
-
-<input
-  [(ngModel)]="formValue"
-  (keyup.enter)="sendMessage()"
-  type="text"
-/><br />
-
-<button (click)="sendMessage()">Send</button>
+</div>

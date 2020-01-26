@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ChatService} from '../chat.service';
+import {ChatService, Message} from '../chat.service';
 
 @Component({
   selector: 'operator-chat',
@@ -8,7 +8,7 @@ import {ChatService} from '../chat.service';
   providers: [ChatService]
 })
 export class OperatorChatComponent implements OnInit {
-  messages: string[] = [];
+  messages: Message[] = [];
   formValue: string;
 
   // UI elements for all the customers we currently aware of
@@ -34,7 +34,7 @@ export class OperatorChatComponent implements OnInit {
         socket.on('customer disconnected', notifyCustomerDisconnected);
         socket.on('system error', notifySystemError);*/
 
-    this.chatService.getSocket().on('customer connected', info => {
+    this.chatService.socket.on('customer connected', info => {
       console.log('info', info);
     });
   }
@@ -43,7 +43,7 @@ export class OperatorChatComponent implements OnInit {
     // this.chat.converse(this.formValue);
     // console.log(this.formValue);
     this.chatService.sendMessage(this.formValue, 'operator-message');
-    this.messages.push(this.formValue);
+    this.messages.push({content: this.formValue, sentBy: 'operator-message'});
     this.formValue = '';
   }
 

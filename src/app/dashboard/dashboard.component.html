@@ -2,26 +2,39 @@
   <div class="column"></div>
   <div class="column container">
     <h2>Dialog Flow test</h2>
-    <small>Testing the bot functionality of dialog flow, and trying to emulate how the platform would be used in it the
-      wild</small>
+    <small>
+      Testing the bot functionality of dialog flow, and trying to emulate how the platform would be used in it the wild
+    </small>
     <br/>
-    <br>
+    <br/>
     <h3>Demo aims</h3>
     <ul>
-      <li>Emulate CMR and BH bots to show how the system can answer multiple/different requests</li>
-      <li>Create an interface to add more agents easily (representative of adding new customer)</li>
-      <li>Create an interface to add new intent to agent easily (customer being able to customise their bot)</li>
-      <li>Create Bot-to-human-handoff functionality (guest side + hotelier side)</li>
+      <li>
+        Emulate CMR and BH bots to show how the system can answer
+        multiple/different requests
+      </li>
+      <li>
+        Create an interface to add more agents easily (representative of adding
+        new customer)
+      </li>
+      <li>
+        Create an interface to add new intent to agent easily (customer being
+        able to customise their bot)
+      </li>
+      <li>
+        Create Bot-to-human-handoff functionality (guest side + hotelier side)
+      </li>
       <li>Integrate Twilio to allow functionality to used via Channels</li>
     </ul>
-
+    <br/><br/>
+    <!-- Tab group for the chat bots and admin components -->
     <mat-tab-group [backgroundColor]="'primary'">
-      <!--<mat-tab label="Celtic Manor Bot">
-&lt;!&ndash;        <cmr-chat></cmr-chat>&ndash;&gt;
+      <mat-tab label="Celtic Manor Bot">
+        <cmr-chat></cmr-chat>
       </mat-tab>
       <mat-tab label="Brookstreet Bot">
-        &lt;!&ndash;        <bh-chat></bh-chat>&ndash;&gt;
-      </mat-tab>-->
+        <bh-chat></bh-chat>
+      </mat-tab>
       <mat-tab label="Admin Settings">
         <app-admin></app-admin>
       </mat-tab>
