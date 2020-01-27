@@ -5,7 +5,8 @@
 <p>Used for editing information about bots</p>
 
 <hr>
-
+<!-- options to change the bot to be added to/edited-->
+<!-- Todo: this will be done by the user for their own bot. -->
 <div class="form-group col-md-4">
   <label for="Bot">Change Bot Settings</label>
   <select class="form-control" id="Bot">
@@ -17,6 +18,7 @@
 <hr>
 
 <form (ngSubmit)="createNewIntent()">
+  <!--  Intent display name as shown in dialogflow or bot platform-->
   <div class="form-row">
     <div [formGroup]="intentForm" class="form-group col-md-6">
       <label for="intentName">Intent Name</label>
@@ -35,7 +37,11 @@
         <input class="form-control m-1" formControlName="trainingPhrase" placeholder="Training Phrase">
       </div>
     </div>
-    <button (click)="addTrainingPhrase()" class="text-center mt-1 btn btn-primary" type="button">+ training phrase
+
+    <!--  Add another field for a training field  -->
+
+    <button (click)="addTrainingPhrase()" class="text-center mt-1 btn btn-primary" type="button">
+      + training phrase
     </button>
   </div>
 
@@ -54,6 +60,7 @@
 
   <hr>
 
+  <!-- runs the method to create new intents -->
   <button class="btn btn-primary" type="submit">Create intent</button>
 
 </form>

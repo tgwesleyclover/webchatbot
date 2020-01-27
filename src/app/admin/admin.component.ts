@@ -4,7 +4,6 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {google} from 'dialogflow/protos/protos';
 import ITrainingPhrase = google.cloud.dialogflow.v2beta1.Intent.ITrainingPhrase;
 import IMessage = google.cloud.dialogflow.v2.Intent.IMessage;
-import IIntent = google.cloud.dialogflow.v2.IIntent;
 import Intent = google.cloud.dialogflow.v2.Intent;
 
 @Component({
@@ -14,18 +13,18 @@ import Intent = google.cloud.dialogflow.v2.Intent;
   providers: [DialogflowAdmin]
 })
 export class AdminComponent implements OnInit {
-  bots: string[] = ['BH', 'CMR'];
+  bots: string[] = ['BH', 'CMR']; // available bots for editing
   intentForm: FormGroup;
   projectId = 'btth-ysrpam';
 
-  trainingPhrases: FormArray;
-  messageResponses: FormArray;
+  trainingPhrases: FormArray; // array of the training phases that are entered by the user
+  messageResponses: FormArray; // array of the bot's responses entered by user
 
   constructor(
     private admin: DialogflowAdmin,
     private formBuilder: FormBuilder
   ) {
-
+    // initialise the form group which we use to create the intent
     this.intentForm = this.formBuilder.group({
       intentName: '',
       trainingPhrases: this.formBuilder.array([this.createTrainingPhase()]),
@@ -35,11 +34,16 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
+    // get the agent intents for a selected agent
     this.admin.getAgentIntent(this.projectId).subscribe((value: Intent) => {
+      // Todo: show the intents that are available to the user to edit
       console.log(value);
     }, error => console.log(error));
   }
 
+  /** create a new training phase form to the group
+   * @return new form group
+   */
   createTrainingPhase(): FormGroup {
     return this.formBuilder.group({
       trainingPhrase: ''
@@ -52,9 +56,10 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  /** Add a training phase form group to the array */
   addTrainingPhrase(): void {
     this.trainingPhrases = this.intentForm.get('trainingPhrases') as FormArray;
-    this.trainingPhrases.push(this.createTrainingPhase());
+    this.trainingPhrases.push(this.createTrainingPhase()); // add the newly created training phase to the form array
   }
 
   addMessageResponse(): void {
@@ -62,31 +67,39 @@ export class AdminComponent implements OnInit {
     this.messageResponses.push(this.createMessageResponse());
   }
 
+  /** Create a new intent*/
   createNewIntent() {
+    // the intent display name as shown in dialogflow
     const intentDisplayName: string = this.intentForm.controls['intentName'].value;
 
+    // get the training phases from the form array and construct the training phase object for each control in the array
     const trainingPhrases: ITrainingPhrase[] =
       this.trainingPhrases.getRawValue().map((value) => {
         return {parts: [{text: value.trainingPhrase}]};
       });
 
-    const messageResponses: IMessage[] = [
-      {
-        text: {
-          text: this.messageResponses.getRawValue().map((value) => {
-            return value.messageResponse;
-          })
-        }
+    // construct the response array from the array of message responses
+    const messageResponses: IMessage[] = [{
+      text: {
+        text: this.messageResponses.getRawValue().map((value) => {
+          return value.messageResponse;
+        })
       }
-    ];
+    }];
 
-    const intentInformation: IIntent = {
+    /*     const intentInformation: IIntent = {
+          displayName: intentDisplayName,
+          trainingPhrases: trainingPhrases,
+          messages: messageResponses
+        };
+    */
+
+    // the intent object to be
+    const intent: Intent = Intent.create({
       displayName: intentDisplayName,
       trainingPhrases: trainingPhrases,
       messages: messageResponses
-    };
-
-    const intent: Intent = Intent.create(intentInformation);
+    });
 
     this.admin.createNewAgentIntent(this.projectId, intent);
   }

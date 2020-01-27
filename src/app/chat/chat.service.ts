@@ -12,7 +12,6 @@ export class Message {
   }
 }
 
-
 @Injectable()
 export class CMRChatService {
   readonly token = environment.dialogflow.CMRBot; // make call to Loop API
@@ -67,26 +66,26 @@ export class BHChatService {
   }
 }
 
+/** Handles the communication between server and clients*/
 @Injectable()
 export class ChatService {
   public readonly socket;
-  // private url = 'http://localhost:5000/test-uvmimj/us-central1/app';
-  private url = 'http://localhost:3000';
+  private url = 'http://localhost:3000'; // connect to the socket server which is handling the requests
 
   constructor() {
     this.socket = io(this.url);
-
-    this.socket.on('customer connected', info => {
-      console.log(info);
-    });
   }
 
-  public sendMessage(message, sender) {
+  /** Send a message
+   * @param message the text to send
+   * @param sender who is sending the message */
+  public sendMessage(message: string, sender: string) {
     this.socket.emit(sender, message);
   }
 
+  /** get's all the customer messages stored on the server and returns an observable array of message objects*/
   public getCustomerMessages(): any {
-    return Observable.create(observer => {
+    return of(observer => {
       this.socket.on('customer-message', message => {
         const messageObject: Message = {content: message, sentBy: 'operator'};
         observer.next(messageObject);
@@ -94,6 +93,7 @@ export class ChatService {
     });
   }
 
+  /** get's all the customer messages stored on the server and returns an observable array of message objects*/
   public getOperatorMessages() {
     return of(observer => {
       this.socket.on('operator-message', message => {
@@ -104,16 +104,23 @@ export class ChatService {
   }
 }
 
+/** Class for interacting with dialogflow on admin level. */
 @Injectable()
 export class DialogflowAdmin {
-  baseUrl = 'https://dialogflow.googleapis.com/v2';
+  baseUrl = 'https://dialogflow.googleapis.com/v2'; // the url used to interact with dialogflow
 
   constructor(private http: HttpClient) {
   }
 
-  createNewAgentIntent(projectId: string, intent: Intent) {
-    const url = `${this.baseUrl}/projects/${projectId}/agent/intents`;
+  /** Method to create a new agent intent programmatically
+   * @param projectId String - the agent on which the intent will be assigned
+   * @param intent Intent - the intent to be created
+   * @return observable of newly created intent */
+  createNewAgentIntent(projectId: string, intent: Intent): Observable<Intent> {
 
+    const url = `${this.baseUrl}/projects/${projectId}/agent/intents`; // the url for creating new intents
+
+    // request headers configuration for setting bearer toke ToDo: replace with full authentication
     const config = {
       headers: {
         'Authorization': 'Bearer ' + environment.dialogflow.apiKey,
@@ -121,14 +128,13 @@ export class DialogflowAdmin {
       }
     };
 
-    this.http.post(url, intent, config).subscribe((test) => {
-      console.log(test);
-    }, error => {
-      console.log(error);
-    });
-
+    return this.http.post<Intent>(url, intent, config);
   }
 
+  /** Get an agents intent
+   * @param projectId String - the bot that is in question
+   * @return observable of an intent
+   * */
   getAgentIntent(projectId: string): Observable<Intent> {
     const url = `${this.baseUrl}/projects/${projectId}/agent/intents`;
 
