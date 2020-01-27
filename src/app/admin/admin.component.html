@@ -32,10 +32,11 @@
     <div *ngFor="let item of intentForm?.get('trainingPhrases')?.controls; let i = index;"
          formArrayName="trainingPhrases">
       <div [formGroupName]="i" class="form-inline">
-        <input class="form-control" formControlName="trainingPhrase" placeholder="Training Phrase">
+        <input class="form-control m-1" formControlName="trainingPhrase" placeholder="Training Phrase">
       </div>
     </div>
-    <button (click)="addTrainingPhrase()" type="button">+ training phrase</button>
+    <button (click)="addTrainingPhrase()" class="text-center mt-1 btn btn-primary" type="button">+ training phrase
+    </button>
   </div>
 
   <hr>
@@ -45,10 +46,10 @@
     <div *ngFor="let item of intentForm?.get('messageResponses')?.controls; let i = index;"
          formArrayName="messageResponses">
       <div [formGroupName]="i" class="form-inline">
-        <input class="form-control" formControlName="messageResponse" placeholder="Message Response">
+        <input class=" m-1 form-control" formControlName="messageResponse" placeholder="Message Response">
       </div>
     </div>
-    <button (click)="addMessageResponse()" type="button">+ message response</button>
+    <button (click)="addMessageResponse()" class="mt-1 btn btn-primary" type="button">+ message response</button>
   </div>
 
   <hr>
