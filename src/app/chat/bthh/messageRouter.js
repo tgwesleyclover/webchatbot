@@ -19,12 +19,12 @@ const OperatorConnectionHandler = require("./operatorConnectionHandler.js");
 // Routes messages between connected customers, operators and Dialogflow agent
 class MessageRouter {
   constructor({
-    customerStore,
-    dialogflowClient,
-    projectId,
-    customerRoom,
-    operatorRoom
-  }) {
+                customerStore,
+                dialogflowClient,
+                projectId,
+                customerRoom,
+                operatorRoom
+              }) {
     // Dialogflow client instance
     this.client = dialogflowClient;
     // Dialogflow project id
@@ -67,12 +67,10 @@ class MessageRouter {
   // Notifies all operators of a customer's connection changing
   _sendConnectionStatusToOperator(customerId, disconnected) {
     console.log("Sending customer id to any operators");
-    const status = disconnected
-      ? AppConstants.EVENT_CUSTOMER_DISCONNECTED
-      : AppConstants.EVENT_CUSTOMER_CONNECTED;
+    const status = disconnected ? AppConstants.EVENT_CUSTOMER_DISCONNECTED : AppConstants.EVENT_CUSTOMER_CONNECTED;
     this.operatorRoom.emit(status, customerId);
     // We're using Socket.io for our chat, which provides a synchronous API. However, in case
-    // you want to swich it out for an async call, this method returns a promise.
+    // you want to switch it out for an async call, this method returns a promise.
     return Promise.resolve();
   }
 
@@ -86,13 +84,12 @@ class MessageRouter {
 
     // Since all customer messages should show up in the operator chat,
     // we now send this utterance to all operators
-    return this._sendUtteranceToOperator(utterance, customer)
-      .then(() => {
+    return this._sendUtteranceToOperator(utterance, customer).then(() => {
         // So all of our logs end up in Dialogflow (for use in training and history),
         // we'll always send the utterance to the agent - even if the customer is in operator mode.
         return this._sendUtteranceToAgent(utterance, customer);
-      })
-      .then(responses => {
+      }
+    ).then(responses => {
         const response = responses[0];
         // If the customer is in agent mode, we'll forward the agent's response to the customer.
         // If not, just discard the agent's response.
@@ -110,7 +107,8 @@ class MessageRouter {
           // Return the agent's response so it can be sent to the customer down the chain
           return speech;
         }
-      });
+      }
+    );
   }
 
   // Uses the Dialogflow client to send a 'WELCOME' event to the agent, starting the conversation.
@@ -149,16 +147,10 @@ class MessageRouter {
     console.log("Sending utterance to any operators");
     if (Array.isArray(utterance)) {
       utterance.forEach(message => {
-        this.operatorRoom.emit(
-          'customer-message',
-          this._operatorMessageObject(customer.id, message, isAgentResponse)
-        );
+        this.operatorRoom.emit('customer-message', this._operatorMessageObject(customer.id, message, isAgentResponse));
       });
     } else {
-      this.operatorRoom.emit(
-        'customer-message',
-        this._operatorMessageObject(customer.id, utterance, isAgentResponse)
-      );
+      this.operatorRoom.emit('customer-message', this._operatorMessageObject(customer.id, utterance, isAgentResponse));
     }
     // We're using Socket.io for our chat, which provides a synchronous API. However, in case
     // you want to swich it out for an async call, this method returns a promise.
@@ -169,7 +161,7 @@ class MessageRouter {
   _relayOperatorMessage(message) {
     this.operatorRoom.emit('operator-message', message);
     // We're using Socket.io for our chat, which provides a synchronous API. However, in case
-    // you want to swich it out for an async call, this method returns a promise.
+    // you want to switch it out for an async call, this method returns a promise.
     return Promise.resolve();
   }
 
@@ -226,7 +218,7 @@ class MessageRouter {
   _notifyOperatorOfSwitch(customerId) {
     this.operatorRoom.emit(AppConstants.EVENT_OPERATOR_REQUESTED, customerId);
     // We're using Socket.io for our chat, which provides a synchronous API. However, in case
-    // you want to swich it out for an async call, this method returns a promise.
+    // you want to switch it out for an async call, this method returns a promise.
     return Promise.resolve();
   }
 }

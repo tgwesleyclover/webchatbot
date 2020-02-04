@@ -85,7 +85,7 @@ export class ChatService {
 
   /** get's all the customer messages stored on the server and returns an observable array of message objects*/
   public getCustomerMessages(): any {
-    return of(observer => {
+    return Observable.create(observer => {
       this.socket.on('customer-message', message => {
         const messageObject: Message = {content: message, sentBy: 'operator'};
         observer.next(messageObject);
